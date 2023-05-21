@@ -2,11 +2,13 @@ from werkzeug.wrappers import Request, Response
 from werkzeug.serving import run_simple
 from werkzeug.routing import Map, Rule
 
+
 # 视图函数index
 def index(environ, start_response):
     text = f"<h1>This is Index</h1>"
     response = Response(response=text, mimetype="text/html")
     return response(environ, start_response)
+
 
 # 视图函数hello
 def hello(environ, start_response):
@@ -15,11 +17,13 @@ def hello(environ, start_response):
     response = Response(response=text, mimetype="text/html")
     return response(environ, start_response)
 
+
 # 视图函数say
 def say(environ, start_response, name="Hello"):
     text = f"<h1>Say {name}</h1>"
     response = Response(response=text, mimetype="text/html")
     return response(environ, start_response)
+
 
 # 分发函数, 找到请求路径对应的端点
 def dispatch(environ, start_response):
@@ -36,6 +40,7 @@ def dispatch(environ, start_response):
         raise "urls match fail..."
     return endpoint, args
 
+
 # 符合wsgi的应用程序
 # 编写具体适用与每一个视图函数的调用逻辑
 def wsgi_apl(environ, start_response):
@@ -43,6 +48,7 @@ def wsgi_apl(environ, start_response):
     if not args:
         return view_map[endpoint](environ, start_response)
     return view_map[endpoint](environ, start_response, name=args["name"])
+
 
 # 构建url与endpoint的映射
 urls_map = Map([
